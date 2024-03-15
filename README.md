@@ -46,7 +46,7 @@ The API call must happen just-in-time with the order and not be deferred, such a
 
 ### Endpoint
 
-POST an https://coupon-api.sovendus.com/redeem/{trafficSourceNumber}
+POST request to `https://coupon-api.sovendus.com/redeem/{trafficSourceNumber}`
 
 ### Response
 
