@@ -6,7 +6,7 @@ As Sovendus relies on tracking all coupon redemptions for the distributed codes 
 
 For this purpose, Sovendus provides an API for coupon redemptions.
 
-## Advantages:
+## Advantages
 
 - No tracking deviations with correct integration
 - No impact from external factors such as browsers, ad blockers, or script errors
@@ -15,7 +15,7 @@ For this purpose, Sovendus provides an API for coupon redemptions.
 - Sovendus algorithms work with accurate data, benefiting your ranking on our platform
 - API calls occur only when a voucher code is used for a purchase
 
-## Example Integration Points:
+## Example Integration Points
 
 - When clicking “Order” in the shop
 - After successfully completing a transaction in the shop system/app
@@ -35,14 +35,14 @@ The API call must happen just-in-time with the order and not be deferred, such a
 
 ### Parameter
 
-| Parameter                | Description                                                                                                                       | Mandatory                                                 |
-| ------------------------ | --------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------- |
-| email_hash               | Hash value of the customer’s email, used for unique identification of the redemption. Calculated as: md5(lowercase(trim(e-mail))) | Required                                                  |
-| traffic_medium_public_id | Integration ID provided by Sovendus                                                                                               | Required                                                  |
-| order_value              | Net order value excluding VAT and shipping                                                                                        | Required for percentage-based billing, otherwise optional |
-| order_currency           | Currency of the order, ISO code (e.g., EUR, GBP)                                                                                  | Required for percentage-based billing, otherwise optional |
-| order_id                 | Order number                                                                                                                      | Optional                                                  |
-| coupon_code              | Voucher code used during the order                                                                                                | Required                                                  |
+| Parameter                | Description                                                                                                                       | Mandatory                                                                              |
+| ------------------------ | --------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------|
+| email_hash               | Hash value of the customer’s email, used for unique identification of the redemption. Calculated as: md5(lowercase(trim(e-mail))) | Optional to identify recurring users, ensuring they receive varied offers              |
+| traffic_medium_public_id | Integration ID provided by Sovendus                                                                                               | Optional to determine the traffic medium channel used for statistics                   |
+| order_value              | Net order value excluding VAT and shipping                                                                                        | Required for percentage-based billing, otherwise optional                              |
+| order_currency           | Currency of the order, ISO code (e.g., EUR, GBP)                                                                                  | Required for percentage-based billing, otherwise optional                              |
+| order_id                 | Order number                                                                                                                      | Required in case the voucher code is not unique for each customer, otherwise optional  |
+| coupon_code              | Voucher code used during the order                                                                                                | Required                                                                               |
 
 ### Endpoint
 
@@ -55,13 +55,13 @@ POST request to `https://coupon-api.sovendus.com/redeem/{trafficSourceNumber}`
 | Success                                                     | 200           | {"message":"Coupon redemption received."} |
 | Incorrect Traffic Source Number or Traffic Medium Public ID | 500           | {"error":"Internal error"}                |
 | Traffic Source Number Format                                | 404           | n.a.                                      |
-| Missing Code/Email Hash                                     | 422           | {"error":"Input validation failed."}      |
-| No Traffic Medium Public ID                                 | 422           | {"error":"Input validation failed."}      |
+| Missing Code / malformed Email Hash                         | 422           | {"error":"Input validation failed."}      |
+| Malformed Traffic Medium Public ID                          | 422           | {"error":"Input validation failed."}      |
 | Incorrect Order Value/Order Currency Format                 | 422           | {"error":"Input validation failed."}      |
 
 ### Example Post Request
 
-#### Example URL:
+#### Example URL
 
 `https://coupon-api.sovendus.com/redeem/1234`
 
