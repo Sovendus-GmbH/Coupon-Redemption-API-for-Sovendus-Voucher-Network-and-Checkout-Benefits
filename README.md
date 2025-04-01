@@ -6,34 +6,48 @@ As Sovendus relies on tracking all coupon redemptions for the distributed codes 
 
 For this purpose, Sovendus provides an API for coupon redemptions.
 
-## Advantages
+## Key Advantages of API Integration
 
-- No tracking deviations with correct integration
-- No impact from external factors such as browsers, ad blockers, or script errors
-- Passing only necessary data for billing purposes
-- Avoiding manual reconciliation efforts
-- Sovendus algorithms work with accurate data, benefiting your ranking on our platform
-- API calls occur only when a voucher code is used for a purchase
+- **Reliable Tracking:** No tracking deviations with correct integration
+- **Resilient Solution:** Not affected by browsers, ad blockers, or script errors
+- **Data Efficiency:** Only necessary data for billing purposes is transmitted
+- **Reduced Workload:** No manual reconciliation efforts needed
+- **Improved Performance:** Sovendus algorithms work with accurate data, benefiting your ranking
+- **Optimized Processing:** API calls occur only when a voucher code is used for a purchase
 
-## Example Integration Points
+## Recommended Integration Points
 
-- When clicking “Order” in the shop
-- After successfully completing a transaction in the shop system/app
+The API call should be made at the moment of purchase completion:
+
+- When the "Order" button is clicked in your shop
+- After successfully completing a transaction in your shop system/app
 - During data export/transmission to a connected ERP system
-- When inserting the transaction into the shop system’s ‘Order DB’
+- When inserting the transaction into your shop system's 'Order DB'
 
-The API call must happen just-in-time with the order and not be deferred, such as during a monthly reconciliation.
+> **Important:** The API call must happen just-in-time with the order and not be deferred, such as during a monthly reconciliation.
 
-## Implementation
+## Technical Implementation
 
 ### Access Data (Example)
+
+Your Sovendus representative will provide you with the following credentials:
 
 | Key                      | Value                                |
 | ------------------------ | ------------------------------------ |
 | trafficSourceNumber      | 1234                                 |
 | traffic_medium_public_id | ce5c91d3-1ed9-46dc-ab5b-1c0b117cb874 |
 
-### Parameter
+### API Endpoint
+
+POST request to `https://coupon-api.sovendus.com/redeem/{trafficSourceNumber}`
+
+### Required Headers
+
+| Header         | Value              |
+| -------------- | ------------------ |
+| Content-Type   | application/json   |
+
+### Parameters
 
 | Parameter                | Description                                                                                                                       | Mandatory                                                                              |
 | ------------------------ | --------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------|
@@ -43,10 +57,6 @@ The API call must happen just-in-time with the order and not be deferred, such a
 | order_currency           | Currency of the order, ISO code (e.g., EUR, GBP)                                                                                  | Required for percentage-based billing, otherwise optional                              |
 | order_id                 | Order number                                                                                                                      | Required in case the voucher code is not unique for each customer, otherwise optional  |
 | coupon_code              | Voucher code used during the order                                                                                                | Required                                                                               |
-
-### Endpoint
-
-POST request to `https://coupon-api.sovendus.com/redeem/{trafficSourceNumber}`
 
 ### Response
 
